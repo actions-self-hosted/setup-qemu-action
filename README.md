@@ -33,7 +33,7 @@ jobs:
     steps:
       -
         name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+        uses: actions-self-hosted/setup-qemu-action@v3
 ```
 
 ## Customizing
