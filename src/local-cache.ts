@@ -4,11 +4,11 @@ import * as core from '@actions/core';
 import {Docker} from '@docker/actions-toolkit/lib/docker/docker';
 
 function getImageCacheFileName(imageName: string): string {
-  return `${imageName.replace(/[\/\:]/g, '-')}.tar`;
+  return `${imageName.replace(/[/:]/g, '-')}.tar`;
 }
 
-export async function loadDockerImageFromCache(localCachePath: string, imageName: string): Promise<void> {
-  const cacheFilePath = path.join(localCachePath, getImageCacheFileName(imageName));
+export async function loadDockerImageFromCache(cacheDir: string, imageName: string): Promise<void> {
+  const cacheFilePath = path.join(cacheDir, getImageCacheFileName(imageName));
 
   try {
     if (fs.existsSync(cacheFilePath)) {
@@ -30,12 +30,12 @@ export async function loadDockerImageFromCache(localCachePath: string, imageName
   }
 }
 
-export async function saveDockerImageToCache(localCachePath: string, imageName: string): Promise<void> {
-  const cacheFilePath = path.join(localCachePath, getImageCacheFileName(imageName));
+export async function saveDockerImageToCache(cacheDir: string, imageName: string): Promise<void> {
+  const cacheFilePath = path.join(cacheDir, getImageCacheFileName(imageName));
 
   try {
-    if (!fs.existsSync(localCachePath)) {
-      fs.mkdirSync(localCachePath, {recursive: true});
+    if (!fs.existsSync(cacheDir)) {
+      fs.mkdirSync(cacheDir, {recursive: true});
     }
 
     if (fs.existsSync(cacheFilePath)) {
